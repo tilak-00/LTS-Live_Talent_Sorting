@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import os
 from pathlib import Path
 import dj_database_url
@@ -21,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h(&lccdb!hue&q!ss#rpw0@(nfr!lp2p0r$!r2pef5w$*u5*0q'
+SECRET_KEY = 'django-insecure-*r+zuu313tdr4&vio351!3)s$7cl&a@mq^5jaohy47bd%v#6!i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'resume_ranker',  # Custom app for resume ranking
+    'resume_ranker',
 ]
 
 MIDDLEWARE = [
