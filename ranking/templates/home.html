@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LTS - AI Resume Ranker | ATS Resume Checker</title>
+<meta name="description" content="LTS is an AI-powered ATS Resume Checker that ranks resumes based on job descriptions. Fast, accurate, and completely free.">
+<meta name="keywords" content="LTS, Resume Ranker, ATS Resume Checker, AI resume screening, resume ranking tool, job matching tool, resume vs JD match">
+<meta name="author" content="LTS Team">
+<meta name="robots" content="index, follow">
+
+<!-- Social media preview (optional) -->
+<meta property="og:title" content="LTS - AI Resume Ranker">
+<meta property="og:description" content="Rank resumes against job descriptions using AI. Free ATS resume checker.">
+<meta property="og:url" content="https://yourapp.com">
+<meta property="og:type" content="website">
+
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    /* --- Loading overlay --- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: white; /* White background for the loading screen only */
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #loading-screen video {
+      width: 60vw;
+      max-width: 600px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    body.loaded #loading-screen {
+      display: none;
+    }
+
+    body {
+      background-image: url("{% static 'images/home-bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #1a1a2e;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-round {
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar h1 {
+      font-size: 28px;
+      color: white;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .hero-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 80px;
+      gap: 40px;
+    }
+
+    .hero-text {
+      max-width: 550px;
+    }
+
+    .hero-text h2 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .btn-group a {
+      text-decoration: none;
+      background-color: #ff7e00;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 5px;
+      margin-right: 15px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-group a:hover {
+      background-color: #e56e00;
+    }
+
+    dotlottie-wc {
+      width: 400px;
+      height: 400px;
+      margin-left: -20px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+        padding: 30px 20px;
+      }
+
+      .hero-text h2 {
+        font-size: 32px;
+      }
+
+      .hero-text p {
+        font-size: 16px;
+      }
+
+      dotlottie-wc {
+        width: 300px;
+        height: 300px;
+        margin-left: 0;
+      }
+
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <video id="intro-video" autoplay muted playsinline>
+      <source src="{% static 'videos/intro.mp4' %}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Main Content -->
+  <div class="hero">
+    <div class="navbar">
+      <div class="brand">
+        <img src="{% static 'images/lts-logo.jpg' %}" alt="LTS Logo" class="logo-round"/>
+        <h1>LTS - LIVE TALENT SORTING</h1>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <h2>AI‑Powered Resume Screening</h2>
+        <p>Instantly match resumes to your job description with AI accuracy.</p>
+        <div class="btn-group">
+          <a href="{% url 'index' %}">Start Ranking</a>
+        </div>
+      </div>
+
+      <dotlottie-wc
+        src="https://lottie.host/a691e71b-5fd2-4631-bc4c-5f786973e349/HBFUYE6h3a.lottie"
+        speed="1"
+        autoplay
+        loop>
+      </dotlottie-wc>
+    </div>
+  </div>
+
+  <!-- Script to hide loading screen after 3 seconds -->
+  <script>
+    window.addEventListener('load', () => {
+      const video = document.getElementById('intro-video');
+      if (video) {
+        video.play();
+        setTimeout(() => {
+          document.body.classList.add('loaded');
+        }, 3000); // 3 seconds
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LTS - AI Resume Ranker | ATS Resume Checker</title>
+<meta name="description" content="LTS is an AI-powered ATS Resume Checker that ranks resumes based on job descriptions. Fast, accurate, and completely free.">
+<meta name="keywords" content="LTS, Resume Ranker, ATS Resume Checker, AI resume screening, resume ranking tool, job matching tool, resume vs JD match">
+<meta name="author" content="LTS Team">
+<meta name="robots" content="index, follow">
+
+<!-- Social media preview (optional) -->
+<meta property="og:title" content="LTS - AI Resume Ranker">
+<meta property="og:description" content="Rank resumes against job descriptions using AI. Free ATS resume checker.">
+<meta property="og:url" content="https://yourapp.com">
+<meta property="og:type" content="website">
+
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f0f4ff);
+      color: #0d1b2a;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .navbar .brand img {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar .brand-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0077b6;
+    }
+
+    .main-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 20px;
+      flex-wrap: wrap;
+    }
+
+    .form-section {
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 550px;
+      width: 100%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 26px;
+      color: #0077b6;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 16px;
+      color: #023047;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    textarea,
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      background-color: #f5faff;
+      transition: 0.2s ease;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      border-color: #00b4d8;
+      box-shadow: 0 0 6px #caf0f8;
+      outline: none;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .visible {
+      display: block;
+    }
+
+    select {
+      background-color: #d0f4ff;
+    }
+
+    button {
+      padding: 14px;
+      background: linear-gradient(to right, #00b894, #00cec9);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00bfa5;
+      transform: translateY(-2px);
+    }
+
+    .animation-box {
+      background-color: #b2ebf2;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    dotlottie-wc.animation {
+      width: 400px;
+      height: 400px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #48cae4, #90e0ef);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+    }
+
+    .overlay.active {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s;
+    }
+
+    .overlay dotlottie-wc {
+      width: 600px;
+      height: 600px;
+    }
+
+    .overlay p {
+      color: #003554;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: -20px;
+    }
+
+    @media (max-width: 768px) {
+      .main-wrapper {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      dotlottie-wc.animation {
+        width: 280px;
+        height: 280px;
+      }
+
+      .overlay dotlottie-wc {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Branded Header -->
+  <div class="navbar">
+    <div class="brand">
+      <img src="{% static 'images/lts-logo.jpg' %}" alt="LTS Logo" />
+      <div class="brand-name">LTS - LIVE TALENT SORTING</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <!-- Form Container -->
+    <div class="form-section">
+      <h1>AI Resume Screening</h1>
+      <h2>Upload Resumes & Match with Job Description</h2>
+
+      <form method="POST" enctype="multipart/form-data" id="uploadForm">
+        {% csrf_token %}
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label for="job_description">Job Description</label>
+            <textarea name="job_description" required placeholder="Paste job description here...">{{ job_description }}</textarea>
+          </div>
+
+          <div>
+            <label for="uploadType">Upload Type</label>
+            <select id="uploadType" required>
+              <option value="">-- Choose --</option>
+              <option value="file">Upload Files (.pdf/.docx)</option>
+              <option value="folder">Upload Folder</option>
+            </select>
+          </div>
+
+          <div>
+            <input type="file" name="resumes" id="fileUpload" class="file-input" multiple accept=".pdf,.docx" />
+            <input type="file" name="resumes" id="folderUpload" class="file-input" webkitdirectory directory multiple />
+          </div>
+
+          <div style="display: flex; justify-content: center;">
+            <button type="submit" style="min-width: 200px;">Rank Resumes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Side Animation -->
+    <div class="animation-box">
+      <dotlottie-wc 
+        src="https://lottie.host/8aa2bb25-1009-424d-acdf-6de5e5b13d99/2q7TTMOB3J.lottie" 
+        class="animation" speed="1" autoplay loop>
+      </dotlottie-wc>
+    </div>
+  </div>
+
+  <!-- Fullscreen Loading Popup -->
+  <div class="overlay" id="loadingOverlay">
+    <dotlottie-wc 
+      src="https://lottie.host/65c12751-b8ea-4d55-8d35-81b265b6237c/29LElC47aY.lottie" 
+      speed="1" autoplay loop>
+    </dotlottie-wc>
+    <p>Ranking resumes... Please wait</p>
+  </div>
+
+  <script>
+    const uploadType = document.getElementById("uploadType");
+    const fileUpload = document.getElementById("fileUpload");
+    const folderUpload = document.getElementById("folderUpload");
+    const form = document.getElementById("uploadForm");
+    const overlay = document.getElementById("loadingOverlay");
+
+    uploadType.addEventListener("change", () => {
+      fileUpload.classList.remove("visible");
+      folderUpload.classList.remove("visible");
+
+      if (uploadType.value === "file") {
+        fileUpload.classList.add("visible");
+        fileUpload.required = true;
+        folderUpload.required = false;
+      } else if (uploadType.value === "folder") {
+        folderUpload.classList.add("visible");
+        folderUpload.required = true;
+        fileUpload.required = false;
+      }
+    });
+
+    form.addEventListener("submit", () => {
+      overlay.classList.add("active");
+    });
+  </script>
+</body>
+</html>
