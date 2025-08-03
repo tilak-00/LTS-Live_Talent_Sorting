@@ -1,22 +1,33 @@
+# Keep your imports the same
 import os
 from django.shortcuts import render, redirect
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from docx import Document
 from PyPDF2 import PdfReader
 from django.contrib.auth import authenticate, login
-from sentence_transformers import SentenceTransformer, util
 from django.contrib.auth.models import User
 from django.contrib import messages
 import re
+from sentence_transformers import SentenceTransformer, util
 
-model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
+# Remove global model = ...
+model = None  # will be initialized lazily
 results_data = []
 
-
+def get_model():
+    global model
+    if model is None:
+        model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
+    return model
 
 def home(request):
-    return render(request, "home.html")
+    try:
+        print("Request method:", request.method)
+        return render(request, "home.html")
+    except Exception as e:
+        print("Error in home view:", e)
+        raise
+
 
 
 def extract_text(file):
@@ -37,6 +48,8 @@ def index(request):
     if request.method == "POST":
         job_description = request.POST.get("job_description", "")
         resumes = request.FILES.getlist("resumes")
+
+        model = get_model()  # Load model when needed
 
         jd_embedding = model.encode(job_description, convert_to_tensor=True)
         scores = []
