@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resume-ranker"
+version = "0.1.0"
+description = "AI Resume Screening System"
+readme = "README.md"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+    "Django>=3.2,<5.0",
+    "scikit-learn>=1.2,<1.4",
+    "numpy>=1.21,<1.26",
+    "python-docx",
+    "pdfminer.six",
+    "pandas",
+    "sentence-transformers",
+]
