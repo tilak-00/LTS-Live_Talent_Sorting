@@ -4,8 +4,10 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    startCommand: gunicorn yourprojectname.wsgi:application --workers=1 --timeout=120
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: resume_ranker.settings  # Replace with actual project name
-    
+        value: resume_ranker.settings
+    startCommand: |
+      python manage.py collectstatic --noinput && \
+      python manage.py migrate --noinput && \
+      gunicorn resume_ranker.wsgi:application --bind 0.0.0.0:$PORT
