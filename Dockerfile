@@ -1,25 +1,27 @@
 FROM python:3.9-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy and install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip config set global.retries 10 && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
 COPY . .
 
-# Optional: copy secret .env file if it exists in Render secret files
+# Copy Render's secret .env if available
 RUN test -f /etc/secrets/.env && cp /etc/secrets/.env .env || echo ".env not found at build time"
 
-# Install dotenv (in case it's not in requirements.txt)
+# Just in case python-dotenv isn't in requirements.txt
 RUN pip install python-dotenv
 
-# Set environment variables for Gunicorn to bind on 0.0.0.0:8000
+# Django setup
+RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate --noinput
+
+# Expose port (Render dynamically sets it, but this is okay)
 EXPOSE 8000
 
-# Start Gunicorn server
-CMD ["gunicorn", "resume_ranker.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "90"]
+# Start Gunicorn with environment port support
+ENV PORT=8000
+CMD gunicorn resume_ranker.wsgi:application --bind 0.0.0.0:$PORT
