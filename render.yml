@@ -4,7 +4,8 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    startCommand: gunicorn lts_resume_ranker.wsgi:application --workers=1 --timeout=120
+    startCommand: gunicorn yourprojectname.wsgi:application --workers=1 --timeout=120
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: resume_ranker.settings
+        value: resume_ranker.settings  # Replace with actual project name
+    
