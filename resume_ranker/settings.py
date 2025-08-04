@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-*r+zuu313tdr4&vio351!3)s$7cl&a@mq^5jaohy47bd%v#6!i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "LTS_Live_Talent_Sorting.onrender.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "lts-live-talent-sorting.onrender.com"]
 
 # Application definition
 INSTALLED_APPS = [
