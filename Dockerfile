@@ -1,5 +1,9 @@
-# Use official Python 3.9 base image
+# Use official Python 3.9 image
 FROM python:3.9-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Set working directory
 WORKDIR /app
@@ -7,14 +11,10 @@ WORKDIR /app
 # Copy project files
 COPY . /app
 
-# Upgrade pip
-RUN pip install --upgrade pip
-
 # Install dependencies
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Expose the port Render uses
-EXPOSE 8000
-
-# Run Django using gunicorn
+# Start your app (adjust if needed)
 CMD ["gunicorn", "resume_ranker.wsgi:application", "--bind", "0.0.0.0:8000"]
+
