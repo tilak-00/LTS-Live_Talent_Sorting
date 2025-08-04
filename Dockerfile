@@ -23,6 +23,4 @@ RUN python manage.py migrate --noinput
 EXPOSE 8000
 
 # Start Gunicorn with environment port support
-ENV PORT=8000
-RUN echo "PORT is $PORT"
-CMD ["gunicorn", "resume_ranker.wsgi:application", "--bind", "0.0.0.0:$PORT"]
+CMD ["gunicorn", "resume_ranker.wsgi:application", "--bind", "0.0.0.0:8000"]
