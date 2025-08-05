@@ -7,7 +7,10 @@ services:
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: resume_ranker.settings
+      - key: PYTHON_VERSION
+        value: 3.9.0
     startCommand: |
       python manage.py collectstatic --noinput && \
       python manage.py migrate --noinput && \
       gunicorn resume_ranker.wsgi:application --bind 0.0.0.0:8000
+    preDeployCommand: "python manage.py collectstatic --noinput && python manage.py migrate --noinput"
